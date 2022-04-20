@@ -1,4 +1,4 @@
-DEPS="zlib-1.2.11 ffi-3.2.1"
+DEPS="zlib-1.2.12 ffi-3.2.1"
 DEPS_NATIVE="glib-2.50.0"
 
 PK_DIRNAME="glib-2.50.0"

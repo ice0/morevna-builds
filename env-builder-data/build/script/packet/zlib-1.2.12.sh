@@ -1,6 +1,6 @@
 DEPS=""
 
-PK_DIRNAME="zlib-1.2.11"
+PK_DIRNAME="zlib-1.2.12"
 PK_ARCHIVE="$PK_DIRNAME.tar.gz"
 PK_URL="http://zlib.net/$PK_ARCHIVE"
 
