@@ -30,20 +30,22 @@ pkbuild() {
         LOCAL_OPTIONS="--host=$HOST"
     fi
     if [ "$PLATFORM" = "win" ]; then
-        LOCAL_CMAKE_OPTIONS="$LOCAL_CMAKE_OPTIONS -DCMAKE_SYSTEM_NAME=Windows"
+        LOCAL_CMAKE_OPTIONS="$LOCAL_CMAKE_OPTIONS -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=$HOST-gcc -DCMAKE_CXX_COMPILER=$HOST-g++ -DCMAKE_LIBRARY_PATH=/usr/$HOST/lib/"
         LOCAL_PNG_LIB="libpng16.dll.a"
         LOCAL_GLUT_LIB="libfreeglut.dll.a"
     fi
 
-    if ! check_packet_function $NAME build.libtiff; then
+    if ! check_packet_function $NAME libtiff.build; then
+#        echo "should not be here"
+#        exit 1
         cd "$BUILD_PACKET_DIR/$PK_DIRNAME/thirdparty/tiff-4.0.3"
-        if ! check_packet_function $NAME build.libtiff.configure; then
+        if ! check_packet_function $NAME libtiff.build.configure; then
             CFLAGS="$CFLAGS -fPIC" ./configure $LOCAL_OPTIONS || return 1
-           set_done $NAME build.libtiff.configure
+           set_done $NAME libtiff.build.configure
         fi
         make clean
         make -j${THREADS} || return 1
-        set_done $NAME build.libtiff
+        set_done $NAME libtiff.build
     fi
 
     rm -rf "$BUILD_PACKET_DIR/$PK_DIRNAME/toonz/build"
@@ -66,7 +68,7 @@ pkbuild() {
         set_done $NAME build.configure
     fi
     
-    make -j${THREADS} || return 1
+    make VERBOSE=1 -j${THREADS} || return 1
 }
 
 pkinstall() {
